@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Drum Kit</title>
+    <style>
+        body {
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(45deg, red, blue, purple, yellow, green);
+    background-size: 400% 400%;
+    animation: bg-animation 10s infinite alternate;
+}
+
+@keyframes bg-animation {
+    0% { background-position: left; }
+    100% { background-position: right; }
+}
+
+        .container {
+            text-align: center;
+        }
+        img {
+            width: 120px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        audio {
+            display: none;
+        }
+        h1{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1> Music and Enjoy 💫 </h1>
+<div class="container">
+    <img src="crash.png" onclick="playSound('crash')" alt="crash">
+    <img src="kick.png" onclick="playSound('kick')" alt="kick">
+    <img src="snare.png" onclick="playSound('snare')" alt="snare">
+    <img src="tom1.png" onclick="playSound('tom1')" alt="tom1">
+    <img src="tom2.png" onclick="playSound('tom2')" alt="tom2">
+    <img src="tom3.png" onclick="playSound('tom3')" alt="tom3">
+    <img src="tom4.png" onclick="playSound('tom4')" alt="tom4">
+
+</div>
+
+    <!-- Hidden audio -->
+    <audio id="crash" src="crash.mp3"></audio>
+    <audio id="kick" src="kick-bass.mp3"></audio>
+    <audio id="snare" src="snare.mp3"></audio>
+    <audio id="tom1" src="tom-1.mp3"></audio>
+    <audio id="tom2" src="tom-2.mp3"></audio>
+    <audio id="tom3" src="tom-3.mp3"></audio>
+    <audio id="tom4" src="tom-4.mp3"></audio>
+
+    <script>
+        function playSound(id) {
+            const audio = document.getElementById(id);
+            audio.currentTime = 0; 
+            audio.play();
+        }
+    </script>
+
+</body>
+</html>
