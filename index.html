@@ -6,9 +6,11 @@
         body {
             height: 100vh;
             margin: 0;
-            background: linear-gradient(45deg, red, blue, purple, yellow, green);
-            background-size: 400% 400%;
-            animation: bg-animation 10s infinite alternate;
+            overflow: hidden;
+            background: linear-gradient(45deg, #4b00e0, #ff0080, #ffcc00, #0099ff);
+            background-size: 500% 500%;
+            animation: bg-animation 12s infinite alternate;
+            font-family: Arial, sans-serif;
         }
 
         @keyframes bg-animation {
@@ -16,87 +18,124 @@
             100% { background-position: right; }
         }
 
+        /* Floating Music Notes */
+        .note {
+            position: absolute;
+            font-size: 30px;
+            animation: float 6s linear infinite;
+            opacity: 0.7;
+            color: white;
+        }
+
+        @keyframes float {
+            from { transform: translateY(100vh) translateX(0); }
+            to { transform: translateY(-10vh) translateX(40px); }
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 38px;
+            text-shadow: 0 0 15px white;
+            margin-top: 20px;
+        }
+
         .container {
             text-align: center;
+            margin-top: 20px;
         }
 
         .drum-box {
             position: relative;
             display: inline-block;
-            margin: 10px;
+            margin: 20px;
+        }
+
+        img {
+            width: 150px;
+            cursor: pointer;
+            border-radius: 15px;
+            transition: 0.2s;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+        }
+
+        img:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px white;
+        }
+
+        img:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 40px #00eaff;
         }
 
         .key-label {
             position: absolute;
-            top: 5px;
-            left: 5px;
-            background: black;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
             color: white;
-            padding: 3px 7px;
-            border-radius: 5px;
+            padding: 5px 12px;
+            border-radius: 8px;
             font-size: 16px;
-            font-family: Arial;
-            opacity: 0.8;
+            box-shadow: 0 0 12px black;
         }
 
-        img {
-            width: 120px;
-            cursor: pointer;
-        }
-
-        audio {
-            display: none;
-        }
-
-        h1{
-            text-align: center;
-        }
+        audio { display: none; }
     </style>
 </head>
 <body>
 
 <h1> Music and Enjoy 💫 </h1>
 
+
+<div class="note" style="left: 10%;">🎵</div>
+<div class="note" style="left: 30%; animation-delay: 1s;">🎶</div>
+<div class="note" style="left: 50%; animation-delay: 2s;">🎵</div>
+<div class="note" style="left: 70%; animation-delay: 1.5s;">🎶</div>
+<div class="note" style="left: 90%; animation-delay: 0.5s;">🎵</div>
+
 <div class="container">
 
     <div class="drum-box">
-        <div class="key-label">S</div>
         <img src="crash.png" onclick="playSound('crash')" alt="crash">
+        <div class="key-label">S</div>
     </div>
 
     <div class="drum-box">
-        <div class="key-label">W</div>
         <img src="kick.png" onclick="playSound('kick')" alt="kick">
+        <div class="key-label">W</div>
     </div>
 
     <div class="drum-box">
-        <div class="key-label">E</div>
         <img src="snare.png" onclick="playSound('snare')" alt="snare">
+        <div class="key-label">E</div>
     </div>
 
     <div class="drum-box">
-        <div class="key-label">U</div>
         <img src="tom1.png" onclick="playSound('tom1')" alt="tom1">
+        <div class="key-label">U</div>
     </div>
 
     <div class="drum-box">
-        <div class="key-label">I</div>
         <img src="tom2.png" onclick="playSound('tom2')" alt="tom2">
+        <div class="key-label">I</div>
     </div>
 
     <div class="drum-box">
-        <div class="key-label">O</div>
         <img src="tom3.png" onclick="playSound('tom3')" alt="tom3">
+        <div class="key-label">O</div>
     </div>
 
     <div class="drum-box">
-        <div class="key-label">P</div>
         <img src="tom4.png" onclick="playSound('tom4')" alt="tom4">
+        <div class="key-label">P</div>
     </div>
 
 </div>
 
-<!-- Hidden audio -->
+
 <audio id="crash" src="crash.mp3"></audio>
 <audio id="kick" src="kick-bass.mp3"></audio>
 <audio id="snare" src="snare.mp3"></audio>
@@ -107,30 +146,44 @@
 
 <script>
 
-    function playSound(id) {
-        const audio = document.getElementById(id);
-        audio.currentTime = 0; 
-        audio.play();
-    }
+function playSound(id) {
+    const audio = document.getElementById(id);
+    audio.currentTime = 0;
+    audio.play();
+}
 
-    
-    const keyMap = {
-        "s": "crash",
-        "w": "kick",
-        "e": "snare",
-        "u": "tom1",
-        "i": "tom2",
-        "o": "tom3",
-        "p": "tom4"
-    };
 
-    
-    document.addEventListener("keydown", function(event) {
-        const key = event.key.toLowerCase();
-        if (keyMap[key]) {
-            playSound(keyMap[key]);
+const keyMap = {
+    "s": "crash",
+    "w": "kick",
+    "e": "snare",
+    "u": "tom1",
+    "i": "tom2",
+    "o": "tom3",
+    "p": "tom4"
+};
+
+
+document.addEventListener("keydown", function(event) {
+    const key = event.key.toLowerCase();
+    if (keyMap[key]) {
+
+        
+        playSound(keyMap[key]);
+
+        
+        const img = document.querySelector(`img[onclick="playSound('${keyMap[key]}')"]`);
+        if (img) {
+            img.style.transform = "scale(0.9)";
+            img.style.boxShadow = "0 0 40px #00eaff";
+
+            setTimeout(() => {
+                img.style.transform = "scale(1)";
+                img.style.boxShadow = "0 0 20px rgba(255,255,255,0.3)";
+            }, 200);
         }
-    });
+    }
+});
 
 </script>
 
