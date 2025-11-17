@@ -1,67 +1,124 @@
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Drum Kit</title>
+    
     <style>
         body {
-    height: 100vh;
-    margin: 0;
-    background: linear-gradient(45deg, red, blue, purple, yellow, green);
-    background-size: 400% 400%;
-    animation: bg-animation 10s infinite alternate;
-}
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #1b1b1b, #000000);
+            font-family: Poppins, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden;
+        }
 
-@keyframes bg-animation {
-    0% { background-position: left; }
-    100% { background-position: right; }
-}
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2.8rem;
+            text-shadow: 0 0 15px #ff00dd;
+        }
 
         .container {
-            text-align: center;
-        }
-        img {
-            width: 120px;
-            margin: 10px;
-            cursor: pointer;
+            display: grid;
+            grid-template-columns: repeat(3, 130px);
+            gap: 20px;
         }
 
-        audio {
-            display: none;
+        .drum {
+            width: 130px;
+            height: 130px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: 0.15s ease;
+            box-shadow: 0 0 12px rgba(255, 0, 234, 0.3);
         }
-        h1{
-            text-align: center;
+
+        .drum:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 0 20px #ff00ddcc;
+        }
+
+        .drum img {
+            width: 90px;
+        }
+
+        .active-hit {
+            transform: scale(0.9) !important;
+            box-shadow: 0 0 30px #ff00ff !important;
+            background: rgba(255, 0, 170, 0.4);
         }
     </style>
 </head>
-<body>
-<h1> Music and Enjoy 💫 </h1>
-<div class="container">
-    <img src="crash.png" onclick="playSound('crash')" alt="crash">
-    <img src="kick.png" onclick="playSound('kick')" alt="kick">
-    <img src="snare.png" onclick="playSound('snare')" alt="snare">
-    <img src="tom1.png" onclick="playSound('tom1')" alt="tom1">
-    <img src="tom2.png" onclick="playSound('tom2')" alt="tom2">
-    <img src="tom3.png" onclick="playSound('tom3')" alt="tom3">
-    <img src="tom4.png" onclick="playSound('tom4')" alt="tom4">
 
+<body>
+
+<h1>🎧 Play the Drum Kit 🎶</h1>
+
+<div class="container">
+    <div class="drum" data-sound="crash"><img src="crash.png"></div>
+    <div class="drum" data-sound="kick"><img src="kick.png"></div>
+    <div class="drum" data-sound="snare"><img src="snare.png"></div>
+    <div class="drum" data-sound="tom1"><img src="tom1.png"></div>
+    <div class="drum" data-sound="tom2"><img src="tom2.png"></div>
+    <div class="drum" data-sound="tom3"><img src="tom3.png"></div>
+    <div class="drum" data-sound="tom4"><img src="tom4.png"></div>
 </div>
 
-    <!-- Hidden audio -->
-    <audio id="crash" src="crash.mp3"></audio>
-    <audio id="kick" src="kick-bass.mp3"></audio>
-    <audio id="snare" src="snare.mp3"></audio>
-    <audio id="tom1" src="tom-1.mp3"></audio>
-    <audio id="tom2" src="tom-2.mp3"></audio>
-    <audio id="tom3" src="tom-3.mp3"></audio>
-    <audio id="tom4" src="tom-4.mp3"></audio>
+<!-- audio -->
+<audio id="crash" src="crash.mp3"></audio>
+<audio id="kick" src="kick-bass.mp3"></audio>
+<audio id="snare" src="snare.mp3"></audio>
+<audio id="tom1" src="tom-1.mp3"></audio>
+<audio id="tom2" src="tom-2.mp3"></audio>
+<audio id="tom3" src="tom-3.mp3"></audio>
+<audio id="tom4" src="tom-4.mp3"></audio>
 
-    <script>
-        function playSound(id) {
-            const audio = document.getElementById(id);
-            audio.currentTime = 0; 
-            audio.play();
-        }
-    </script>
+<script>
+    function play(sound) {
+        const audio = document.getElementById(sound);
+        audio.currentTime = 0;
+        audio.play();
+
+        // button animation
+        let btn = document.querySelector(`[data-sound="${sound}"]`);
+        btn.classList.add("active-hit");
+        setTimeout(() => btn.classList.remove("active-hit"), 120);
+    }
+
+    // click support
+    document.querySelectorAll(".drum").forEach(d => {
+        d.onclick = () => play(d.dataset.sound);
+    });
+
+    // keyboard support
+    const keyMap = {
+        "a": "crash",
+        "s": "kick",
+        "d": "snare",
+        "j": "tom1",
+        "k": "tom2",
+        "l": "tom3",
+        ";": "tom4"
+    };
+
+    document.addEventListener("keydown", e => {
+        const sound = keyMap[e.key];
+        if (sound) play(sound);
+    });
+</script>
 
 </body>
 </html>
